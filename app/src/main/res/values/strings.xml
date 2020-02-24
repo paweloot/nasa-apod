@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">NASA APOD</string>
     <string name="image_description_apod">Astronomy photo of the day</string>
+    <string name="snackbar_error_msg">An error occured</string>
 </resources>

@@ -36,7 +36,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showErrorSnackbar() {
-        Snackbar.make(contentMain, "An error occured", Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(
+            contentMain,
+            getString(R.string.snackbar_error_msg),
+            Snackbar.LENGTH_INDEFINITE
+        )
             .show()
     }
 }
