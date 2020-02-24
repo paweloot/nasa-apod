@@ -1,6 +1,7 @@
 package com.paweloot.nasaapod.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,5 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateState(state: MainViewModel.ViewState) {
         adapter.photoList = state.data
+        photoListProgressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
     }
 }
