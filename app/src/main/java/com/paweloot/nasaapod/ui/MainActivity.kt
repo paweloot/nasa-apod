@@ -2,15 +2,29 @@ package com.paweloot.nasaapod.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.paweloot.nasaapod.R
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
+    private val adapter = ApodPhotoAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        photoListRecyclerView.layoutManager = LinearLayoutManager(this)
+        photoListRecyclerView.adapter = adapter
+
+        viewModel.state.observe(this, Observer { updateState(it) })
+    }
+
+    private fun updateState(state: MainViewModel.ViewState) {
+        adapter.photoList = state.data
     }
 }
