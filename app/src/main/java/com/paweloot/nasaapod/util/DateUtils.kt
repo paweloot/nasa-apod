@@ -8,7 +8,6 @@ object DateUtils {
     fun buildLastWeekDates(): List<String> {
         val dateList = mutableListOf<String>()
         val today = Calendar.getInstance().time
-        today.time = today.time - DateConstants.dayInMillis
 
         for (i in 1..7) {
             dateList.add(
