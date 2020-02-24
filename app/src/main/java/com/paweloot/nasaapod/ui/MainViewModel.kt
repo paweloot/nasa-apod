@@ -32,7 +32,7 @@ class MainViewModel(private val apodRepository: ApodRepository) : DisposingViewM
     private fun onPhotosRetrieved(data: List<Photo>) {
         state.value = state.value?.copy(
             isLoading = false,
-            data = data
+            data = data.sortedBy { it.date }.asReversed()
         )
     }
 
