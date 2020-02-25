@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.paweloot.nasaapod.R
 import com.paweloot.nasaapod.data.model.ApodType
 import com.paweloot.nasaapod.data.model.Photo
+import com.paweloot.nasaapod.util.YouTubeUtils
 import kotlinx.android.synthetic.main.list_item_photo.view.*
 
 class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) :
@@ -41,15 +42,16 @@ class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) 
             view.apodPhotoTitle.text = apodPhoto.title
             view.apodPhotoDate.text = apodPhoto.date
 
-            if (apodPhoto.apodType == ApodType.VIDEO) {
-                view.apodPhoto.maxHeight = 300
-                view.apodPhoto.setImageResource(R.drawable.placeholder_youtube)
-            } else {
-                loadPhoto(apodPhoto)
-            }
+            val photoUrl =
+                when (apodPhoto.apodType) {
+                    ApodType.VIDEO -> YouTubeUtils.buildVideoThumbnailUrl(apodPhoto.url)
+                    else -> apodPhoto.url
+                }
+
+            loadPhotoFromUrl(photoUrl)
         }
 
-        private fun loadPhoto(apodPhoto: Photo) {
+        private fun loadPhotoFromUrl(photoUrl: String) {
             val circularProgressDrawable =
                 CircularProgressDrawable(view.context).apply {
                     centerRadius = 50f
@@ -58,7 +60,7 @@ class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) 
                 }
 
             Glide.with(view.context)
-                .load(apodPhoto.url)
+                .load(photoUrl)
                 .placeholder(circularProgressDrawable)
                 .into(view.apodPhoto)
         }
