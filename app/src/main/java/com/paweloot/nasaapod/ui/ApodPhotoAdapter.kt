@@ -30,25 +30,30 @@ class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) 
     }
 
     override fun onBindViewHolder(holder: ApodPhotoHolder, position: Int) {
-        holder.bind(photoList[position])
-        holder.view.setOnClickListener { onClickCallback(photoList[position]) }
+        holder.bind(photoList[position], onClickCallback)
     }
 
     override fun getItemCount() = photoList.size
 
-    class ApodPhotoHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class ApodPhotoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(apodPhoto: Photo) {
-            view.apodPhotoTitle.text = apodPhoto.title
-            view.apodPhotoDate.text = apodPhoto.date
+        fun bind(apodPhoto: Photo, onClickCallback: (apodPhoto: Photo) -> Unit) {
+            with(itemView) {
+                apodPhotoTitle.text = apodPhoto.title
+                apodPhotoDate.text = apodPhoto.date
+                setOnClickListener { onClickCallback(apodPhoto) }
+            }
 
             val photoUrl =
                 when (apodPhoto.apodType) {
                     ApodType.VIDEO -> {
-                        view.apodVideoIcon.visibility = View.VISIBLE
+                        itemView.apodVideoIcon.visibility = View.VISIBLE
                         YouTubeUtils.buildVideoThumbnailUrl(apodPhoto.url)
                     }
-                    else -> apodPhoto.url
+                    else -> {
+                        itemView.apodVideoIcon.visibility = View.GONE
+                        apodPhoto.url
+                    }
                 }
 
             loadPhotoFromUrl(photoUrl)
@@ -56,16 +61,16 @@ class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) 
 
         private fun loadPhotoFromUrl(photoUrl: String) {
             val circularProgressDrawable =
-                CircularProgressDrawable(view.context).apply {
+                CircularProgressDrawable(itemView.context).apply {
                     centerRadius = 50f
                     strokeWidth = 5f
                     start()
                 }
 
-            Glide.with(view.context)
+            Glide.with(itemView.context)
                 .load(photoUrl)
                 .placeholder(circularProgressDrawable)
-                .into(view.apodPhoto)
+                .into(itemView.apodPhoto)
         }
     }
 }
