@@ -11,7 +11,8 @@ import com.paweloot.nasaapod.data.model.ApodType
 import com.paweloot.nasaapod.data.model.Photo
 import kotlinx.android.synthetic.main.list_item_photo.view.*
 
-class ApodPhotoAdapter : RecyclerView.Adapter<ApodPhotoAdapter.ApodPhotoHolder>() {
+class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) :
+    RecyclerView.Adapter<ApodPhotoAdapter.ApodPhotoHolder>() {
 
     var photoList: List<Photo> = listOf()
         set(value) {
@@ -29,11 +30,12 @@ class ApodPhotoAdapter : RecyclerView.Adapter<ApodPhotoAdapter.ApodPhotoHolder>(
 
     override fun onBindViewHolder(holder: ApodPhotoHolder, position: Int) {
         holder.bind(photoList[position])
+        holder.view.setOnClickListener { onClickCallback(photoList[position]) }
     }
 
     override fun getItemCount() = photoList.size
 
-    class ApodPhotoHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ApodPhotoHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(apodPhoto: Photo) {
             view.apodPhotoTitle.text = apodPhoto.title

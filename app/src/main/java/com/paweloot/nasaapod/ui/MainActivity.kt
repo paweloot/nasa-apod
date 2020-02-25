@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.paweloot.nasaapod.R
+import com.paweloot.nasaapod.data.model.Photo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -14,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
-    private val adapter = ApodPhotoAdapter()
+    private val adapter = ApodPhotoAdapter(this::onApodClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,5 +43,9 @@ class MainActivity : AppCompatActivity() {
             Snackbar.LENGTH_INDEFINITE
         )
             .show()
+    }
+
+    private fun onApodClicked(apodPhoto: Photo) {
+
     }
 }
