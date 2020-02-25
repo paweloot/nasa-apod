@@ -2,7 +2,7 @@ package com.paweloot.nasaapod.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Photo(
+data class Apod(
     val date: String = "",
     val title: String = "",
     val explanation: String = "",

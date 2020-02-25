@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.paweloot.nasaapod.R
+import com.paweloot.nasaapod.data.model.Apod
 import com.paweloot.nasaapod.data.model.ApodType
-import com.paweloot.nasaapod.data.model.Photo
 import com.paweloot.nasaapod.util.YouTubeUtils
 import kotlinx.android.synthetic.main.list_item_photo.view.*
 
-class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) :
+class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
     RecyclerView.Adapter<ApodPhotoAdapter.ApodPhotoHolder>() {
 
-    var photoList: List<Photo> = listOf()
+    var apodList: List<Apod> = listOf()
         set(value) {
             if (value != field) {
                 field = value
@@ -30,29 +30,29 @@ class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) 
     }
 
     override fun onBindViewHolder(holder: ApodPhotoHolder, position: Int) {
-        holder.bind(photoList[position], onClickCallback)
+        holder.bind(apodList[position], onClickCallback)
     }
 
-    override fun getItemCount() = photoList.size
+    override fun getItemCount() = apodList.size
 
     class ApodPhotoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(apodPhoto: Photo, onClickCallback: (apodPhoto: Photo) -> Unit) {
+        fun bind(apod: Apod, onClickCallback: (apod: Apod) -> Unit) {
             with(itemView) {
-                apodPhotoTitle.text = apodPhoto.title
-                apodPhotoDate.text = apodPhoto.date
-                setOnClickListener { onClickCallback(apodPhoto) }
+                apodPhotoTitle.text = apod.title
+                apodPhotoDate.text = apod.date
+                setOnClickListener { onClickCallback(apod) }
             }
 
             val photoUrl =
-                when (apodPhoto.apodType) {
+                when (apod.apodType) {
                     ApodType.VIDEO -> {
                         itemView.apodVideoIcon.visibility = View.VISIBLE
-                        YouTubeUtils.buildVideoThumbnailUrl(apodPhoto.url)
+                        YouTubeUtils.buildVideoThumbnailUrl(apod.url)
                     }
                     else -> {
                         itemView.apodVideoIcon.visibility = View.GONE
-                        apodPhoto.url
+                        apod.url
                     }
                 }
 

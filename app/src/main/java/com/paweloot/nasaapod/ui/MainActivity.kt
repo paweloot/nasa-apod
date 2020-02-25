@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.paweloot.nasaapod.R
+import com.paweloot.nasaapod.data.model.Apod
 import com.paweloot.nasaapod.data.model.ApodType
-import com.paweloot.nasaapod.data.model.Photo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateState(state: MainViewModel.ViewState) {
-        adapter.photoList = state.data
+        adapter.apodList = state.data
         photoListProgressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
 
         if (state.errorMsg.isNotEmpty()) {
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun onApodClicked(apodPhoto: Photo) {
-        if (apodPhoto.apodType == ApodType.VIDEO) {
-            val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(apodPhoto.url))
+    private fun onApodClicked(apod: Apod) {
+        if (apod.apodType == ApodType.VIDEO) {
+            val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(apod.url))
             startActivity(youtubeIntent)
         }
     }
