@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.paweloot.nasaapod.R
 import com.paweloot.nasaapod.data.model.Apod
 import com.paweloot.nasaapod.data.model.ApodType
-import com.paweloot.nasaapod.util.YouTubeUtils
 import kotlinx.android.synthetic.main.list_item_photo.view.*
 
 class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
@@ -42,21 +41,16 @@ class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
                 apodPhotoTitle.text = apod.title
                 apodPhotoDate.text = apod.date
                 setOnClickListener { onClickCallback(apod) }
+                setVideoIconVisibility(apod)
             }
 
-            val photoUrl =
-                when (apod.apodType) {
-                    ApodType.VIDEO -> {
-                        itemView.apodVideoIcon.visibility = View.VISIBLE
-                        YouTubeUtils.buildVideoThumbnailUrl(apod.url)
-                    }
-                    else -> {
-                        itemView.apodVideoIcon.visibility = View.GONE
-                        apod.url
-                    }
-                }
+            loadPhotoFromUrl(apod.thumbnailUrl)
+        }
 
-            loadPhotoFromUrl(photoUrl)
+        private fun setVideoIconVisibility(apod: Apod) {
+            itemView.apodVideoIcon.visibility =
+                if (apod.apodType == ApodType.VIDEO) View.VISIBLE
+                else View.GONE
         }
 
         private fun loadPhotoFromUrl(photoUrl: String) {
