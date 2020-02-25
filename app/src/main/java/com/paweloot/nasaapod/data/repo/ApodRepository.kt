@@ -25,7 +25,6 @@ class ApodRepository(private val nasaApodApi: NasaApodApi) {
 
         return Single.merge(singles)
             .toObservable()
-            .filter { it.mediaType == "image" }
             .toList()
     }
 }
