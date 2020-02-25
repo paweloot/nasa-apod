@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.paweloot.nasaapod.R
+import com.paweloot.nasaapod.data.model.ApodType
 import com.paweloot.nasaapod.data.model.Photo
 import kotlinx.android.synthetic.main.list_item_photo.view.*
 
@@ -38,6 +39,15 @@ class ApodPhotoAdapter : RecyclerView.Adapter<ApodPhotoAdapter.ApodPhotoHolder>(
             view.apodPhotoTitle.text = apodPhoto.title
             view.apodPhotoDate.text = apodPhoto.date
 
+            if (apodPhoto.apodType == ApodType.VIDEO) {
+                view.apodPhoto.maxHeight = 300
+                view.apodPhoto.setImageResource(R.drawable.placeholder_youtube)
+            } else {
+                loadPhoto(apodPhoto)
+            }
+        }
+
+        private fun loadPhoto(apodPhoto: Photo) {
             val circularProgressDrawable =
                 CircularProgressDrawable(view.context).apply {
                     centerRadius = 50f
