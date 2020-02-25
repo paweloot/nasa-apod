@@ -44,7 +44,10 @@ class ApodPhotoAdapter(private val onClickCallback: (apodPhoto: Photo) -> Unit) 
 
             val photoUrl =
                 when (apodPhoto.apodType) {
-                    ApodType.VIDEO -> YouTubeUtils.buildVideoThumbnailUrl(apodPhoto.url)
+                    ApodType.VIDEO -> {
+                        view.apodVideoIcon.visibility = View.VISIBLE
+                        YouTubeUtils.buildVideoThumbnailUrl(apodPhoto.url)
+                    }
                     else -> apodPhoto.url
                 }
 

@@ -25,6 +25,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+        <ImageView
+            android:id="@+id/apodVideoIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/apod_icon_description"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/apodPhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/placeholder_youtube" />
+
         <TextView
             android:id="@+id/apodPhotoTitle"
             android:layout_width="0dp"
