@@ -9,4 +9,11 @@ data class Photo(
     @SerializedName("media_type") val mediaType: String = "",
     @SerializedName("url") val url: String = "",
     @SerializedName("hdurl") val hdUrl: String = ""
-)
+) {
+
+    val apodType: ApodType
+        get() = when (mediaType) {
+            "image" -> ApodType.IMAGE
+            else -> ApodType.VIDEO
+        }
+}
