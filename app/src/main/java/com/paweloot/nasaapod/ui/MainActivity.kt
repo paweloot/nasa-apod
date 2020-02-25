@@ -1,5 +1,7 @@
 package com.paweloot.nasaapod.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.paweloot.nasaapod.R
+import com.paweloot.nasaapod.data.model.ApodType
 import com.paweloot.nasaapod.data.model.Photo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,6 +49,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onApodClicked(apodPhoto: Photo) {
-
+        if (apodPhoto.apodType == ApodType.VIDEO) {
+            val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(apodPhoto.url))
+            startActivity(youtubeIntent)
+        }
     }
 }
