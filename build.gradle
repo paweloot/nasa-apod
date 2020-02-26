@@ -11,6 +11,7 @@ buildscript {
         retrofitrx_version = "1.0.0"
         material_version = "1.0.0"
         glide_version = "4.11.0"
+        navigation_version = "2.3.0-alpha02"
     }
 
     repositories {
