@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.paweloot.nasaapod.R
@@ -18,7 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
-    private val adapter = ApodPhotoAdapter(this::onApodClicked)
+    private val adapter = ApodPhotoAdapter(this::onApodClicked).apply {
+        setHasStableIds(true)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         photoListRecyclerView.layoutManager = LinearLayoutManager(this)
         photoListRecyclerView.adapter = adapter
+        (photoListRecyclerView.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
 
         viewModel.state.observe(this, Observer { updateState(it) })
     }
