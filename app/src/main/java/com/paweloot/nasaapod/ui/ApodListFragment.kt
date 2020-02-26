@@ -15,11 +15,14 @@ import com.paweloot.nasaapod.R
 import com.paweloot.nasaapod.data.model.Apod
 import com.paweloot.nasaapod.data.model.ApodType
 import kotlinx.android.synthetic.main.fragment_apod_list.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ApodListFragment : Fragment() {
 
     private val viewModel: ApodViewModel by viewModel()
+
+    private val navManager: NavManager by inject()
 
     private val adapter = ApodPhotoAdapter(this::onApodClicked).apply {
         setHasStableIds(true)
@@ -49,6 +52,10 @@ class ApodListFragment : Fragment() {
         if (apod.apodType == ApodType.VIDEO) {
             val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(apod.url))
             startActivity(youtubeIntent)
+        } else {
+            navManager.navigateTo(
+                ApodListFragmentDirections.actionApodListFragmentToApodDetailsFragment()
+            )
         }
     }
 

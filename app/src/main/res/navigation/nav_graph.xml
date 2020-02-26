@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/apodListFragment"
         android:name="com.paweloot.nasaapod.ui.ApodListFragment"
-        android:label="ApodListFragment" />
+        android:label="ApodListFragment" >
+        <action
+            android:id="@+id/action_apodListFragment_to_apodDetailsFragment"
+            app:destination="@id/apodDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/apodDetailsFragment"
+        android:name="com.paweloot.nasaapod.ui.ApodDetailsFragment"
+        android:label="ApodDetailsFragment" />
 </navigation>
