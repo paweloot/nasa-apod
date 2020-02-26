@@ -5,7 +5,7 @@ import com.paweloot.nasaapod.data.model.Apod
 import com.paweloot.nasaapod.data.repo.ApodRepository
 import io.reactivex.rxkotlin.subscribeBy
 
-class MainViewModel(private val apodRepository: ApodRepository) : DisposingViewModel() {
+class ApodViewModel(private val apodRepository: ApodRepository) : DisposingViewModel() {
 
     data class ViewState(
         val data: List<Apod> = listOf(),
