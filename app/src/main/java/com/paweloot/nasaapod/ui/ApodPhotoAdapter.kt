@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.paweloot.nasaapod.R
 import com.paweloot.nasaapod.data.model.Apod
 import com.paweloot.nasaapod.data.model.ApodType
@@ -93,6 +94,7 @@ class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
             Glide.with(itemView.context)
                 .load(photoUrl)
                 .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .placeholder(circularProgressDrawable)
                 .into(itemView.apodPhoto)
         }
