@@ -16,10 +16,13 @@
 
         <ImageView
             android:id="@+id/apodPhoto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image_description_apod"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/apodTitleView"
+            app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
