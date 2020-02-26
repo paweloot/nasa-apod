@@ -37,8 +37,12 @@ class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
         holder.bind(apodList[position], onClickCallback)
 
         val isExpanded = position == expandedPosition
-        if (isExpanded)
+        if (isExpanded) {
             previousExpandedPosition = expandedPosition
+            holder.itemView.expandArrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+        } else {
+            holder.itemView.expandArrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+        }
 
         holder.itemView.expandableExplanation.visibility =
             if (isExpanded) View.VISIBLE
@@ -61,16 +65,7 @@ class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
     override fun getItemCount() = apodList.size
 
     private fun onApodTitleClicked(itemView: View, position: Int, isExpanded: Boolean) {
-        when (isExpanded) {
-            true -> {
-                expandedPosition = RecyclerView.NO_POSITION
-                itemView.expandArrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-            }
-            else -> {
-                expandedPosition = position
-                itemView.expandArrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-            }
-        }
+        expandedPosition = if (isExpanded) RecyclerView.NO_POSITION else position
 
         TransitionManager.beginDelayedTransition(itemView.apodCardView)
         notifyItemChanged(previousExpandedPosition)
