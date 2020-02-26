@@ -37,22 +37,20 @@ class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
         holder.bind(apodList[position], onClickCallback)
 
         val isExpanded = position == expandedPosition
-        holder.itemView.expandableExplanation.visibility =
-            if (isExpanded) View.VISIBLE else View.GONE
-
         if (isExpanded)
             previousExpandedPosition = expandedPosition
 
-        holder.itemView.apodTitleView.setOnClickListener {
-            expandedPosition = if (isExpanded) RecyclerView.NO_POSITION else position
-            holder.itemView.expandArrow.setImageResource(
-                if (isExpanded) R.drawable.ic_baseline_keyboard_arrow_down_24
-                else R.drawable.ic_baseline_keyboard_arrow_up_24
-            )
+        holder.itemView.expandableExplanation.visibility =
+            if (isExpanded) View.VISIBLE
+            else View.GONE
 
-            TransitionManager.beginDelayedTransition(holder.itemView.apodCardView)
-            notifyItemChanged(previousExpandedPosition)
-            notifyItemChanged(position)
+        // On apod title clicked i.e. when trying to expand/collapse the cardview
+        holder.itemView.apodTitleView.setOnClickListener {
+            onApodTitleClicked(
+                holder.itemView,
+                position,
+                isExpanded
+            )
         }
     }
 
@@ -61,6 +59,23 @@ class ApodPhotoAdapter(private val onClickCallback: (apod: Apod) -> Unit) :
     }
 
     override fun getItemCount() = apodList.size
+
+    private fun onApodTitleClicked(itemView: View, position: Int, isExpanded: Boolean) {
+        when (isExpanded) {
+            true -> {
+                expandedPosition = RecyclerView.NO_POSITION
+                itemView.expandArrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+            }
+            else -> {
+                expandedPosition = position
+                itemView.expandArrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+            }
+        }
+
+        TransitionManager.beginDelayedTransition(itemView.apodCardView)
+        notifyItemChanged(previousExpandedPosition)
+        notifyItemChanged(position)
+    }
 
     class ApodPhotoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
